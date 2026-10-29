@@ -8,3 +8,5 @@ soundfile
 matplotlib
 seaborn
 scipy
+
+
