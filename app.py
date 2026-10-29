@@ -48,7 +48,20 @@ st.markdown(
         --line: #dce7f0;
         --soft: #f4f8fb;
     }
-    .stApp { background: #f7fafc; color: var(--ink); }
+    .stApp { background: #f5f8fc; color: var(--ink); }
+    [data-testid="stSidebar"] { background: linear-gradient(180deg, #eef6fb 0%, #f8fbfd 100%); border-right: 1px solid var(--line); }
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 { color: var(--ink) !important; }
+    .hero-card { background: linear-gradient(120deg, #ffffff 0%, #edf7fc 100%); border: 1px solid #d7e8f2; border-radius: 20px; padding: 24px 26px; margin: 4px 0 18px 0; box-shadow: 0 8px 24px rgba(25,75,110,.06); }
+    .hero-eyebrow { color: #0c8793; text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; font-weight: 800; margin-bottom: 8px; }
+    .hero-title { color: #17324d; font-size: clamp(1.65rem, 3vw, 2.35rem); font-weight: 800; line-height: 1.16; margin-bottom: 8px; }
+    .hero-subtitle { color: #587087; font-size: 1rem; line-height: 1.55; }
+    .result-card { border-radius: 18px; padding: 20px 22px; margin: 12px 0 16px 0; border: 1px solid #d8e7ef; background: #ffffff; box-shadow: 0 8px 22px rgba(20,55,85,.06); }
+    .result-card.positive { border-left: 6px solid #d97706; background: linear-gradient(100deg,#fffaf1,#ffffff 75%); }
+    .result-card.control { border-left: 6px solid #0f9d78; background: linear-gradient(100deg,#effbf6,#ffffff 75%); }
+    .result-label { color: #61768a; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; font-weight: 800; }
+    .result-value { color: #17324d; font-size: 1.45rem; font-weight: 800; margin: 5px 0; }
+    .result-note { color: #5e7183; font-size: .9rem; line-height: 1.5; }
+    .section-kicker { color: #0c8793; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
     [data-testid="stHeader"] { background: rgba(247,250,252,0.92); }
     [data-testid="stAppViewContainer"] > .main { background: #f7fafc; }
     .block-container { max-width: 1220px; padding-top: 2rem; padding-bottom: 3rem; }
@@ -147,18 +160,27 @@ test_df = df.loc[test_indices].copy()
 
 
 st.markdown(
-    '<div style="display:inline-block;padding:5px 11px;border-radius:999px;'
-    'background:#e6f4f7;color:#087e8b;font-size:0.78rem;font-weight:750;'
-    'letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px;">'
-    'VOICE BIOMARKER ANALYTICS · MINI PROJECT</div>',
+    '<div class="hero-card">'
+    '<div class="hero-eyebrow">Voice Biomarker Analytics · B.Tech Mini Project</div>'
+    '<div class="hero-title">Parkinson’s Disease Prediction System</div>'
+    '<div class="hero-subtitle">Explore voice-derived features, compare machine-learning models, '
+    'and review evaluation results in one educational dashboard.</div>'
+    '</div>',
     unsafe_allow_html=True
 )
 
-st.title("🧠 Parkinson's Disease Prediction System")
-
-st.markdown(
-    "### Machine Learning Based Voice Biomarker Analysis"
-)
+with st.sidebar:
+    st.markdown("## 🧠 Parkinson AI")
+    st.caption("Clinical White Dashboard")
+    st.markdown("---")
+    st.markdown("**Project modules**")
+    st.markdown("🎤 Voice upload\n\n🔎 Feature prediction\n\n📊 Model comparison\n\n📈 Evaluation")
+    st.markdown("---")
+    st.markdown("**Dataset snapshot**")
+    st.metric("Structured records", len(df))
+    st.metric("Structured features", len(features))
+    st.markdown("---")
+    st.caption("Educational prototype only. Not validated for medical diagnosis.")
 
 st.warning(
     "Educational project only. This system is not a validated "
@@ -321,17 +343,23 @@ with tab1:
                     st.subheader("Voice Analysis Result")
 
                     if prediction == 1:
-                        st.error(
-                            "Model Prediction: Parkinson's Class"
+                        st.markdown(
+                            '<div class="result-card positive">'
+                            '<div class="result-label">Model output · class 1</div>'
+                            '<div class="result-value">Parkinson’s class</div>'
+                            '<div class="result-note">This is an experimental classifier output, not a diagnosis.</div>'
+                            '</div>', unsafe_allow_html=True
                         )
                     elif prediction == 0:
-                        st.success(
-                            "Model Prediction: Healthy Class"
+                        st.markdown(
+                            '<div class="result-card control">'
+                            '<div class="result-label">Model output · class 0</div>'
+                            '<div class="result-value">Healthy / control class</div>'
+                            '<div class="result-note">This is an experimental classifier output, not a medical clearance.</div>'
+                            '</div>', unsafe_allow_html=True
                         )
                     else:
-                        st.warning(
-                            f"Model returned an unexpected label: {prediction}"
-                        )
+                        st.warning(f"Model returned an unexpected label: {prediction}")
 
                     col_a, col_b = st.columns(2)
 
@@ -455,15 +483,20 @@ with tab2:
         st.subheader("Prediction Result")
 
         if prediction == 1:
-
-            st.error(
-                "Model Prediction: Parkinson's Class (1)"
+            st.markdown(
+                '<div class="result-card positive">'
+                '<div class="result-label">Model output · class 1</div>'
+                '<div class="result-value">Parkinson’s class</div>'
+                '<div class="result-note">Experimental classification only; not a diagnosis.</div>'
+                '</div>', unsafe_allow_html=True
             )
-
         else:
-
-            st.success(
-                "Model Prediction: Control Class (0)"
+            st.markdown(
+                '<div class="result-card control">'
+                '<div class="result-label">Model output · class 0</div>'
+                '<div class="result-value">Control class</div>'
+                '<div class="result-note">Experimental classification only; not a medical clearance.</div>'
+                '</div>', unsafe_allow_html=True
             )
 
         if mode == "Select Dataset Sample":
@@ -521,17 +554,19 @@ with tab3:
         if "Accuracy" in comparison.columns:
 
             st.subheader("Accuracy Comparison")
-
+            st.caption("Compare test-split accuracy across structured-feature models.")
             st.bar_chart(
-                comparison.set_index("Model")[["Accuracy"]]
+                comparison.set_index("Model")[["Accuracy"]],
+                color="#1677b8", horizontal=True
             )
 
         if "F1 Score" in comparison.columns:
 
             st.subheader("F1 Score Comparison")
-
+            st.caption("F1 balances precision and recall; it is not a clinical confidence score.")
             st.bar_chart(
-                comparison.set_index("Model")[["F1 Score"]]
+                comparison.set_index("Model")[["F1 Score"]],
+                color="#0f9d9a", horizontal=True
             )
 
         if (
@@ -578,9 +613,10 @@ with tab3:
         ):
 
             st.subheader("Audio Model Accuracy")
-
+            st.caption("Results depend on the dataset and split strategy; participant leakage has not been ruled out.")
             st.bar_chart(
-                audio_comparison.set_index("Model")[["Accuracy"]]
+                audio_comparison.set_index("Model")[["Accuracy"]],
+                color="#1677b8", horizontal=True
             )
 
         if (
@@ -647,7 +683,8 @@ with tab4:
     )
 
     st.bar_chart(
-        status_summary.set_index("Class")
+        status_summary.set_index("Class"),
+        color="#0f9d9a", horizontal=True
     )
 
     st.markdown("---")
@@ -696,5 +733,5 @@ with tab4:
 st.markdown("---")
 
 st.caption(
-    "B.Tech Mini Project | Machine Learning | Educational Use Only"
+    "Machine Learning | Educational Use Only"
 )
